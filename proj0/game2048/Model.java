@@ -122,11 +122,30 @@ public class Model extends Observable {
                         changed = true;
                     }
                 } else {
-
+                    if (board.tile(col, row) == null && board.tile(col - 1, row) != null) {
+                        board.move(col, row, board.tile(col - 1, row));
+                        changed = true;
+                    }
                 }
             }
         }
 
+        for (int col = 0; col < size() -1; col++) {
+            for (int row = 0; row < size() -1; row++) {
+                if (Side.NORTH.equals(side) || Side.SOUTH.equals(side)) {
+                    if (board.tile(col, row) == null && board.tile(col + 1, row) != null) {
+                        board.move(col, row, board.tile(col + 1, row));
+                        changed = true;
+                    }
+                } else {
+                    if (board.tile(col, row) == null && board.tile(col, row + 1) != null) {
+                        board.move(col, row, board.tile(col, row + 1));
+                        changed = true;
+                    }
+                }
+            }
+        }
+        
         checkGameOver();
         if (changed) {
             setChanged();
