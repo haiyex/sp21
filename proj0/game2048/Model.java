@@ -1,6 +1,8 @@
 package game2048;
 
+import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.List;
 import java.util.Observable;
 
 
@@ -113,10 +115,13 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-        System.out.println(board);
         for (int col = size() - 1; col > 0; col--) {
-            for (int row = size() - 1; row > 0; row--) {
-                if (Side.NORTH.equals(side) || Side.SOUTH.equals(side)) {
+            List<Tile> colTileList = new ArrayList<>();
+            for (int row = size() - 1; row >= 0; row--) {
+                if (tile(col, row) != null) {
+                    colTileList.add(board.tile(col, row));
+                }
+                /*if (Side.NORTH.equals(side)) {
                     if (board.tile(col, row) == null && board.tile(col, row - 1) != null) {
                         board.move(col, row, board.tile(col, row - 1));
                         changed = true;
@@ -126,10 +131,25 @@ public class Model extends Observable {
                         board.move(col, row, board.tile(col - 1, row));
                         changed = true;
                     }
+                }*/
+            }
+            // has tile and tile number is not four
+            if (colTileList.size() != 0 && colTileList.size() != size()) {
+                int i = size() - 1;
+                for (int j = 0; j < colTileList.size(); j++) {
+                    board.move(col, i, colTileList.get(j));
+                    i--;
+                }
+                changed = true;
+                for (int row = size() - 1; row >= 0; row--) {
+                    if (tile(col, row) != null && tile(col, row -1) != null && tile(col, row).value() == tile(col, row - 1).value()) {
+                        tile(col, row).merge(col, row, tile(col, row - 1));
+                    }
                 }
             }
         }
 
+/*
         for (int col = 0; col < size() -1; col++) {
             for (int row = 0; row < size() -1; row++) {
                 if (Side.NORTH.equals(side) || Side.SOUTH.equals(side)) {
@@ -145,7 +165,8 @@ public class Model extends Observable {
                 }
             }
         }
-        
+*/
+
         checkGameOver();
         if (changed) {
             setChanged();
