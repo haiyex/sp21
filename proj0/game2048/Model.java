@@ -112,26 +112,53 @@ public class Model extends Observable {
         boolean changed;
         changed = false;
 
-        // TODO: Modify this.board (and perhaps this.score) to account
+        if (side != Side.NORTH) {
+            board.setViewingPerspective(side);
+        }
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-        for (int col = size() - 1; col > 0; col--) {
+        for (int col = size() - 1; col >= 0; col--) {
             List<Tile> colTileList = new ArrayList<>();
             findNotNullEle(colTileList, col);
-            // has tile and tile number is not four
             if (colTileList.size() != 0 && colTileList.size() != size()) {
-                int i = size() - 1;
-                for (int j = 0; j < colTileList.size(); j++) {
-                    board.move(col, i, colTileList.get(j));
-                    i--;
+                for (int row = size() - 1; row > 0; row--) {
+                    if (row == size() - 1) {
+                        if (tile(col, row) == null) {
+                            changed = true;
+                            break;
+                        }
+                    } else {
+                        if ((tile(col, row) == null && tile(col, row - 1) != null) || (tile(col, row) != null && tile(col, row - 1) == null)) {
+                            changed = true;
+                            break;
+                        }
+                    }
                 }
-                changed = true;
-                score = mergeTile(score, col);
+            }
+            // has tile and tile number is not four
+            if (colTileList.size() != 0) {
+                int i = size() - 1;
+                if (colTileList.size() != size()) {
+                    for (int j = 0; j < colTileList.size(); j++) {
+//                        if (colTileList.get(j).row() != size() - 1) {
+                        board.move(col, i, colTileList.get(j));
+//                        }
+                        i--;
+                    }
+                }
+                boolean changeMerge = mergeTile(col);
+                if (!changed) {
+                    changed = changeMerge;
+                }
             }
             colTileList.clear();
             findNotNullEle(colTileList, col);
             // after move, need to remove again
             moveEleWithFindNeedMoveEle(colTileList, col);
+        }
+
+        if (side != Side.NORTH) {
+            board.setViewingPerspective(Side.NORTH);
         }
 
         checkGameOver();
@@ -141,14 +168,16 @@ public class Model extends Observable {
         return changed;
     }
 
-    private int mergeTile(int score, int col) {
-        for (int row = size() - 1; row >= 0; row--) {
+    private boolean mergeTile(int col) {
+        boolean change = false;
+        for (int row = size() - 1; row > 0; row--) {
             if (tile(col, row) != null && tile(col, row -1) != null && tile(col, row).value() == tile(col, row - 1).value()) {
                 board.move(col, row, tile(col, row - 1));
-                score += board.tile(col, row).value();
+                this.score += board.tile(col, row).value();
+                change = true;
             }
         }
-        return score;
+        return change;
     }
 
     private void findNotNullEle(List<Tile> colTileList, int col) {
