@@ -140,9 +140,7 @@ public class Model extends Observable {
                 int i = size() - 1;
                 if (colTileList.size() != size()) {
                     for (int j = 0; j < colTileList.size(); j++) {
-//                        if (colTileList.get(j).row() != size() - 1) {
                         board.move(col, i, colTileList.get(j));
-//                        }
                         i--;
                     }
                 }
