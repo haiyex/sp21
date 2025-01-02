@@ -117,11 +117,7 @@ public class Model extends Observable {
         // changed local variable to true.
         for (int col = size() - 1; col > 0; col--) {
             List<Tile> colTileList = new ArrayList<>();
-            for (int row = size() - 1; row >= 0; row--) {
-                if (tile(col, row) != null) {
-                    colTileList.add(board.tile(col, row));
-                }
-            }
+            findNotNullEle(colTileList, col);
             // has tile and tile number is not four
             if (colTileList.size() != 0 && colTileList.size() != size()) {
                 int i = size() - 1;
@@ -130,37 +126,47 @@ public class Model extends Observable {
                     i--;
                 }
                 changed = true;
-                for (int row = size() - 1; row >= 0; row--) {
-                    if (tile(col, row) != null && tile(col, row -1) != null && tile(col, row).value() == tile(col, row - 1).value()) {
-                        board.move(col, row, tile(col, row - 1));
-                    }
-                }
+                score = mergeTile(score, col);
             }
+            colTileList.clear();
+            findNotNullEle(colTileList, col);
+            // after move, need to remove again
+            moveEleWithFindNeedMoveEle(colTileList, col);
         }
-
-/*
-        for (int col = 0; col < size() -1; col++) {
-            for (int row = 0; row < size() -1; row++) {
-                if (Side.NORTH.equals(side) || Side.SOUTH.equals(side)) {
-                    if (board.tile(col, row) == null && board.tile(col + 1, row) != null) {
-                        board.move(col, row, board.tile(col + 1, row));
-                        changed = true;
-                    }
-                } else {
-                    if (board.tile(col, row) == null && board.tile(col, row + 1) != null) {
-                        board.move(col, row, board.tile(col, row + 1));
-                        changed = true;
-                    }
-                }
-            }
-        }
-*/
 
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
+    }
+
+    private int mergeTile(int score, int col) {
+        for (int row = size() - 1; row >= 0; row--) {
+            if (tile(col, row) != null && tile(col, row -1) != null && tile(col, row).value() == tile(col, row - 1).value()) {
+                board.move(col, row, tile(col, row - 1));
+                score += board.tile(col, row).value();
+            }
+        }
+        return score;
+    }
+
+    private void findNotNullEle(List<Tile> colTileList, int col) {
+        for (int row = size() - 1; row >= 0; row--) {
+            if (tile(col, row) != null) {
+                colTileList.add(board.tile(col, row));
+            }
+        }
+    }
+
+    private void moveEleWithFindNeedMoveEle(List<Tile> colTileList, int col) {
+        if (colTileList.size() != 0 && colTileList.size() != size()) {
+            int i = size() - 1;
+            for (int j = 0; j < colTileList.size(); j++) {
+                board.move(col, i, colTileList.get(j));
+                i--;
+            }
+        }
     }
 
     /** Checks if the game is over and sets the gameOver variable
