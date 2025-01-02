@@ -121,17 +121,6 @@ public class Model extends Observable {
                 if (tile(col, row) != null) {
                     colTileList.add(board.tile(col, row));
                 }
-                /*if (Side.NORTH.equals(side)) {
-                    if (board.tile(col, row) == null && board.tile(col, row - 1) != null) {
-                        board.move(col, row, board.tile(col, row - 1));
-                        changed = true;
-                    }
-                } else {
-                    if (board.tile(col, row) == null && board.tile(col - 1, row) != null) {
-                        board.move(col, row, board.tile(col - 1, row));
-                        changed = true;
-                    }
-                }*/
             }
             // has tile and tile number is not four
             if (colTileList.size() != 0 && colTileList.size() != size()) {
@@ -143,7 +132,7 @@ public class Model extends Observable {
                 changed = true;
                 for (int row = size() - 1; row >= 0; row--) {
                     if (tile(col, row) != null && tile(col, row -1) != null && tile(col, row).value() == tile(col, row - 1).value()) {
-                        tile(col, row).merge(col, row, tile(col, row - 1));
+                        board.move(col, row, tile(col, row - 1));
                     }
                 }
             }
