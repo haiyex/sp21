@@ -4,182 +4,99 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
 
-public class LinkedListDeque<E> implements Deque<E>{
+public class LinkedListDeque<T> {
+
+    private int size = 0;
+
+    private Node<T> first;
+
+    private Node<T> last;
+
     public LinkedListDeque() {
     }
 
-    @Override
-    public void addFirst(E e) {
+    public void addFirst(T item) {
 
     }
 
-    @Override
-    public void addLast(E e) {
+    public void addLast(T item) {
 
     }
 
-    @Override
-    public boolean offerFirst(E e) {
+    public T removeFirst() {
+        return null;
+    }
+    public T removeLast() {
+        if (last != null) {
+            Node<T> oldLast = last;
+            if (last.prev != null) {
+                this.last = oldLast.prev;
+            } else {
+                this.last = null;
+            }
+            return oldLast.getItem();
+        }
+        return null;
+    }
+
+    public T get(int index) {
+        return null;
+    }
+
+    /**
+     * 递归方法获取元素
+     * @param index 对应元素的下表
+     * @return 查找到元素
+     */
+    public T getRecursive(int index) {
+        return null;
+    }
+
+    public boolean addAll(Collection<? extends T> c) {
         return false;
     }
 
-    @Override
-    public boolean offerLast(E e) {
-        return false;
-    }
-
-    @Override
-    public E removeFirst() {
-        return null;
-    }
-
-    @Override
-    public E removeLast() {
-        return null;
-    }
-
-    @Override
-    public E pollFirst() {
-        return null;
-    }
-
-    @Override
-    public E pollLast() {
-        return null;
-    }
-
-    @Override
-    public E getFirst() {
-        return null;
-    }
-
-    @Override
-    public E getLast() {
-        return null;
-    }
-
-    @Override
-    public E peekFirst() {
-        return null;
-    }
-
-    @Override
-    public E peekLast() {
-        return null;
-    }
-
-    @Override
-    public boolean removeFirstOccurrence(Object o) {
-        return false;
-    }
-
-    @Override
-    public boolean removeLastOccurrence(Object o) {
-        return false;
-    }
-
-    @Override
-    public boolean add(E e) {
-        return false;
-    }
-
-    @Override
-    public boolean offer(E e) {
-        return false;
-    }
-
-    @Override
-    public E remove() {
-        return null;
-    }
-
-    @Override
-    public E poll() {
-        return null;
-    }
-
-    @Override
-    public E element() {
-        return null;
-    }
-
-    @Override
-    public E peek() {
-        return null;
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends E> c) {
-        return false;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        return false;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        return false;
-    }
-
-    @Override
-    public void clear() {
-
-    }
-
-    @Override
-    public void push(E e) {
-
-    }
-
-    @Override
-    public E pop() {
-        return null;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        return false;
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        return false;
-    }
-
-    @Override
-    public boolean contains(Object o) {
-        return false;
-    }
-
-    @Override
     public int size() {
-        return 0;
+        return size;
     }
 
-    @Override
+    
     public boolean isEmpty() {
+        return size() > 0;
+    }
+
+    public boolean equals(Object o) {
         return false;
     }
 
-    @Override
-    public Iterator<E> iterator() {
+    
+    public Iterator<T> iterator() {
         return null;
     }
 
-    @Override
-    public Object[] toArray() {
-        return new Object[0];
+    public void printDeque() {
+
     }
 
-    @Override
-    public <T> T[] toArray(T[] a) {
-        return null;
+    private static class Node<T> {
+        T item;
+
+        Node<T> prev;
+        Node<T> next;
+
+        public Node(T item, Node<T> prev, Node<T> next) {
+            this.item = item;
+            this.prev = prev;
+            this.next = next;
+        }
+
+        public T getItem() {
+            return item;
+        }
+
+        public void setItem(T item) {
+            this.item = item;
+        }
     }
 
-    @Override
-    public Iterator<E> descendingIterator() {
-        return null;
-    }
 }
