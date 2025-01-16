@@ -16,23 +16,44 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-
+		Node<T> f = first;
+		if (f == null) {
+			last = new Node<T>(item, null, null);
+			first = last;
+		} else {
+			first = new Node<T>(item, null, f);
+		}
+		size++;
     }
 
     public void addLast(T item) {
-
+		Node<T> l = last;
+		if (l == null) {
+			last = new Node<T>(item, null, null);
+			first = last;
+		} else {
+			last = new Node<T>(item, l, null);
+		}
+		size++;
     }
 
     public T removeFirst() {
+        if (first != null) {
+            Node<T> f = first;
+			first = f.next;
+            if (f.next == null) {
+                last = null;
+            }
+            return f.getItem();
+        }
         return null;
     }
     public T removeLast() {
         if (last != null) {
             Node<T> oldLast = last;
-            if (last.prev != null) {
-                this.last = oldLast.prev;
-            } else {
-                this.last = null;
+			last = oldLast.prev;
+            if (last.prev == null) {
+                first = null;
             }
             return oldLast.getItem();
         }
@@ -40,6 +61,8 @@ public class LinkedListDeque<T> {
     }
 
     public T get(int index) {
+		int start = 0;
+		
         return null;
     }
 
