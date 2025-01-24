@@ -19,6 +19,39 @@ public class Main {
                 // TODO: handle the `add [filename]` command
                 break;
             // TODO: FILL THE REST IN
+            case "commit":
+                // TODO: handle the `add [filename]` command
+                break;
+            case "rm":
+                // TODO: handle the `add [filename]` command
+                break;
+            case "log":
+                // TODO: handle the `add [filename]` command
+                break;
+            case "global-log":
+                // TODO: handle the `add [filename]` command
+                break;
+            case "find":
+                // TODO: handle the `add [filename]` command
+                break;
+            case "status":
+                // TODO: handle the `add [filename]` command
+                break;
+            case "checkout":
+                // TODO: handle the `add [filename]` command
+                break;
+            case "branch":
+                // TODO: handle the `add [filename]` command
+                break;
+            case "rm-branch":
+                // TODO: handle the `add [filename]` command
+                break;
+            case "reset":
+                // TODO: handle the `add [filename]` command
+                break;
+            case "merge":
+                // TODO: handle the `add [filename]` command
+                break;
         }
     }
 }
